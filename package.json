@@ -4,6 +4,7 @@
   "description": "* I will be deploying this api to heroku probably, to use in the future\r * Also planning on updating it regularly with my new drawings\r * Don't wanna use graphql in this one, couldn't find a solution for the error I ran into at on my last project",
   "main": "index.js",
   "scripts": {
+    "devstart": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
