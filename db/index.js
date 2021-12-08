@@ -14,7 +14,7 @@ const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
   dialect: 'postgres'
 });
 
-const test = async () => {
+const dbConnectionTest = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
@@ -25,7 +25,7 @@ const test = async () => {
 
 // sequelize.close()
 
-test();
+dbConnectionTest();
 
 
 // const { Sequelize, DataTypes } = require('sequelize');
@@ -48,8 +48,56 @@ test();
 // console.log(User === sequelize.models.User); // true
 
 const Drawing = sequelize.define('Drawing', {
-  drawing_uid: { type: DataTypes.UUID, allowNull: false },
-  uri: { type: DataTypes.STRING, allowNull: false},
-  info: { type: DataTypes.STRING, allowNull: false } 
+  drawing_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  uri: { type: DataTypes.STRING(2050), allowNull: false},
+  info: { type: DataTypes.STRING(300), allowNull: false } 
+},{
+  // don't wanna use timestamps for now
+  timestamps: false
+},{
+  // Apparently I can give the table name right away like this
+  tableName: 'mock-drawing'
+});
+
+const Object = sequelize.define('Object', {
+  object_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  type: { type: DataTypes.STRING, allowNull: false},
+},{
+  tableName: 'mock_object'
+},{
+  timestamps: false
 })
-console.log("is model successful ==> ",Drawing === sequelize.models.Drawing);
+
+// I don't know how to create a realtion yet 
+const Relation = sequelize.define('Relation', {
+  relation_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  object_uid: { 
+    type: DataTypes.UUID, 
+    allowNull: false,
+    references: {
+      model: Object,
+      key: Object.object_uid
+    } 
+  },
+  drawing_uid: { 
+    type: DataTypes.UUID, 
+    references: {
+      model: Drawing,
+      key: Drawing.drawing_uid
+    },
+    allowNull: false 
+  }
+},{
+  tableName: 'drawing_object_relation'
+},{
+  timestamps: false
+})
+
+
+
+
+console.log("is model successful ==> ",
+  Drawing === sequelize.models.Drawing, 
+  Object === sequelize.models.Object, 
+  Relation === sequelize.models.Relation
+);
