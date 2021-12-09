@@ -115,3 +115,13 @@ console.log("is model successful ==> ",
   Object === sequelize.models.Object, 
   Relation === sequelize.models.Relation
 );
+
+
+
+//Throws error gonn a look back at it after my break;
+const simpleSelect = async () =>  {
+  const allDrawings = await Drawing.findAll();
+  console.log("simple query ==>",allDrawings)
+};
+
+simpleSelect
