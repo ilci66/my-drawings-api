@@ -48,7 +48,11 @@ dbConnectionTest();
 // console.log(User === sequelize.models.User); // true
 
 const Drawing = sequelize.define('Drawing', {
-  drawing_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  drawing_uid: { 
+    type: DataTypes.UUID, 
+    defaultValue: Sequelize.UUIDV4, 
+    allowNull: false, primaryKey: true 
+  },
   uri: { type: DataTypes.STRING(2050), allowNull: false},
   info: { type: DataTypes.STRING(300), allowNull: false } 
 },{
@@ -60,7 +64,12 @@ const Drawing = sequelize.define('Drawing', {
 });
 
 const Object = sequelize.define('Object', {
-  object_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  object_uid: { 
+    type: DataTypes.UUID, 
+    defaultValue: Sequelize.UUIDV4, 
+    allowNull: false, 
+    primaryKey: true 
+  },
   type: { type: DataTypes.STRING, allowNull: false},
 },{
   tableName: 'mock_object'
@@ -70,7 +79,12 @@ const Object = sequelize.define('Object', {
 
 // I don't know how to create a realtion yet 
 const Relation = sequelize.define('Relation', {
-  relation_uid: { type: DataTypes.UUID, allowNull: false, primaryKey: true },
+  relation_uid: { 
+    type: DataTypes.UUID, 
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false, 
+    primaryKey: true 
+  },
   object_uid: { 
     type: DataTypes.UUID, 
     allowNull: false,
