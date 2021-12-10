@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 const { USER, HOST, DATABASE, PASSWORD, POSTGRESQL_PORT } = process.env;
 console.log(USER, HOST, DATABASE, PASSWORD, POSTGRESQL_PORT)
 
@@ -131,24 +131,60 @@ const simpleSelect = async () =>  {
       // group:["drawing_uid"] 
     // });
     
-    // THE ONE ABOVE WORKED WHİLE THE ONE BELOW FAILED, GOTTA KNOW WHY
 
     // AGAIN CERTAIN COLUMNS, but throws an error because of the syntax 
     // const allDrawings = await Drawing.findAll({ 
     //   attributes: {
     //     exclude: "uri", 
-    //     include: 
-    //       [sequelize.fn('COUNT', sequelize.col('info')), 'n_info'],
-    //     // tells me to group, and this one apparently doesn't work 
-    //     group: ["drawing_uid"]
-    //   } 
+    //     include: [ [sequelize.fn('COUNT', sequelize.col('info')), 'n_info'] ],
+    //   },
+    //   // Use like this
+    //   group: 'drawing_uid' 
     // });
     
-    // console.log("simple query ==>",allDrawings);
+    // // console.log("simple query ==>",allDrawings);
 
-    console.log("are they instances of Drawings ==>",allDrawings.every(drawing => drawing instanceof Drawing));
+    // console.log("are they instances of Drawings ==>",allDrawings.every(drawing => drawing instanceof Drawing));
     
-    console.log("All drawings:", JSON.stringify(allDrawings, null, 2));
+    // console.log("All drawings:", JSON.stringify(allDrawings, null, 2));
+
+
+    // SINGLE ITEMS
+    let exampleDrawingUid = 'f3cba304-a14a-4ad6-acc8-8fb81dcd453b';
+    let exampleDrawingUid2 = 'fb88237f-6f90-4019-b4ef-af93194e89c8';
+
+    // const singleDrawing = await Drawing.findAll({
+    //   attributes: { exclude: "uri" },
+    //   where: { drawing_uid: exampleDrawingUid }
+    // })
+ 
+    // This is how OR is used, Op allows the usage on "is", "eq", "ne", "gte" etc. Check the documents when in need of using one 
+    // let singleDrawing = await Drawing.findAll({
+    //   attributes: { exclude: "uri" },
+    //   where: {
+    //     [Op.or] : [
+    //       { drawing_uid: exampleDrawingUid },
+    //       { drawing_uid: exampleDrawingUid2 }
+    //     ]
+    //   }
+    // })
+    
+    // just adding this to try a relatively complicated one from docs that can be used in PostgreSQL
+    // let singleDrawing = await Drawing.findAll({
+    //   attributes: { exclude: "uri" },
+    //   where: { 
+    //     info: {
+    //       [Op.like]: { 
+    //         [Op.any]:  ['%Left%', exampleDrawingUid] 
+    //     }
+    //     }
+        
+    //   }
+    // });
+
+    console.log("Single drawing:", JSON.stringify(singleDrawing, null, 2));
+
+
   }catch(error){
     console.log("error caught ==>", error )
   }
