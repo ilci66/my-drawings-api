@@ -182,8 +182,45 @@ const simpleSelect = async () =>  {
     //   }
     // });
 
-    console.log("Single drawing:", JSON.stringify(singleDrawing, null, 2));
+    // Querying from 'IN'
+    // let singleDrawing = await Drawing.findAll({
+    //   attributes: { exclude: "uri" },
+    //   where: { 
+    //     drawing_uid: [ exampleDrawingUid, exampleDrawingUid2]
+    //     }
+    // });
 
+    // console.log("Single drawing:", JSON.stringify(singleDrawing, null, 2));
+
+    // CREATE IN BULK
+    // const toCreateInBulk = await Drawing.bulkCreate([
+    //   {info: "some drawing"},
+    //   {info: "some other drawing"},
+    // ])
+
+    // console.log(toCreateInBulk.length); // 2
+    // console.log(toCreateInBulk[0] instanceof Drawing); // true
+    // console.log(toCreateInBulk[0].info); 
+    // console.log(toCreateInBulk[0].drawing_uid); 
+
+    // JUST DELETING THE LAST EXAMPLES
+    // await Drawing.destroy({
+    //   where: {
+    //     info: ["some drawing", "some other drawing"]
+    //   }
+    // });
+
+    // This query creates one if can't find the entry
+    // DOESN'T WORK PROPERLY YET FIND OUT WHY AFTER YOUR BREAK
+    // const [ singleDrawing, createdDrawing ] = await Drawing.findOrCreate({
+    //   where: { info: 'This exists!' },
+    //   defaults: {
+    //     uri: 'This is the uri',
+    //     info: 'This exists'
+    //   }
+    // });
+    // if(singleDrawing) console.log( "already in database")
+    // else{console.log("created ==>")}
 
   }catch(error){
     console.log("error caught ==>", error )
