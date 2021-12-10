@@ -14,17 +14,18 @@ const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
   dialect: 'postgres'
 });
 
+
+// sequelize.close()
+
 const dbConnectionTest = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
+    
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
-
-// sequelize.close()
-
 dbConnectionTest();
 
 
@@ -47,7 +48,7 @@ dbConnectionTest();
 // // `sequelize.define` also returns the model
 // console.log(User === sequelize.models.User); // true
 
-const Drawing = sequelize.define('Drawing', {
+const Drawing = sequelize.define('mock_drawings', {
   drawing_uid: { 
     type: DataTypes.UUID, 
     defaultValue: Sequelize.UUIDV4, 
@@ -59,8 +60,8 @@ const Drawing = sequelize.define('Drawing', {
   // don't wanna use timestamps for now
   timestamps: false
 },{
-  // Apparently I can give the table name right away like this
-  tableName: 'mock-drawing'
+  // Apparently I can give the table name right away like this, but did not affect the query 
+  // tableName: 'mock_drawings'
 });
 
 const Object = sequelize.define('Object', {
@@ -118,10 +119,42 @@ console.log("is model successful ==> ",
 
 
 
-//Throws error gonn a look back at it after my break;
+
 const simpleSelect = async () =>  {
-  const allDrawings = await Drawing.findAll();
-  console.log("simple query ==>",allDrawings)
+  try{
+    // GET EVERYTHING
+    // const allDrawings = await Drawing.findAll();
+
+    // CERTAIN COLUMNS
+    // const allDrawings = await Drawing.findAll({ 
+      // attributes: ["info", [sequelize.fn('COUNT', sequelize.col('info')), 'n_info'], "drawing_uid"], 
+      // group:["drawing_uid"] 
+    // });
+    
+    // THE ONE ABOVE WORKED WHİLE THE ONE BELOW FAILED, GOTTA KNOW WHY
+
+    // AGAIN CERTAIN COLUMNS, but throws an error because of the syntax 
+    // const allDrawings = await Drawing.findAll({ 
+    //   attributes: {
+    //     exclude: "uri", 
+    //     include: 
+    //       [sequelize.fn('COUNT', sequelize.col('info')), 'n_info'],
+    //     // tells me to group, and this one apparently doesn't work 
+    //     group: ["drawing_uid"]
+    //   } 
+    // });
+    
+    // console.log("simple query ==>",allDrawings);
+
+    console.log("are they instances of Drawings ==>",allDrawings.every(drawing => drawing instanceof Drawing));
+    
+    console.log("All drawings:", JSON.stringify(allDrawings, null, 2));
+  }catch(error){
+    console.log("error caught ==>", error )
+  }
+
 };
 
-simpleSelect
+setTimeout(() => {
+  simpleSelect()
+}, 1000)
