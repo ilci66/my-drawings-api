@@ -4,3 +4,5 @@
 * I have read a lot about "pg" directly and used it in my last project so I will use "sequalize" in this one to learn about it
 * Commenting the examples given in the docs, taking my notes
 * Changed the table names in the database instead of just using { freezeTableName: true } in sequelize options
+## Gonna delete database I'm currently working on, it was created just for examples
+* Planning on posting the images on imgur and storing the urls in my database where I will be creating relations 
