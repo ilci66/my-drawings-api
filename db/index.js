@@ -52,10 +52,24 @@ const Drawing = sequelize.define('mock_drawings', {
   drawing_uid: { 
     type: DataTypes.UUID, 
     defaultValue: Sequelize.UUIDV4, 
-    allowNull: false, primaryKey: true 
+    allowNull: false, 
+    primaryKey: true,
   },
-  uri: { type: DataTypes.STRING(2050), allowNull: false},
-  info: { type: DataTypes.STRING(300), allowNull: false } 
+  uri: { type: DataTypes.STRING(2050), allowNull: false },
+  info: { 
+    type: DataTypes.STRING(300), 
+    allowNull: false,
+    // can define getters and setters too, cool
+    // call the info directly to get the uppercase info
+    type: DataTypes.STRING(300),
+    get() {
+      const rawValue = this.getDataValue('info');
+      return rawValue ? rawValue.toUpperCase() : null;
+    }
+    // Setters can be used for hashing passwords and stuff, I don't need one here and understood the logic
+    // with setter the database recieves the altered version (by the setter), and has no idea about the raw data
+
+  } 
 },{
   // don't wanna use timestamps for now
   timestamps: false
@@ -213,14 +227,50 @@ const simpleSelect = async () =>  {
     // This query creates one if can't find the entry
     // DOESN'T WORK PROPERLY YET FIND OUT WHY AFTER YOUR BREAK
     // const [ singleDrawing, createdDrawing ] = await Drawing.findOrCreate({
-    //   where: { info: 'This exists!' },
+    //   where: { info: 'This exists' },
     //   defaults: {
     //     uri: 'This is the uri',
     //     info: 'This exists'
     //   }
     // });
     // if(singleDrawing) console.log( "already in database")
-    // else{console.log("created ==>")}
+    // else{console.log("created")}
+
+    // Combining findall and count
+    // const { count, rows } = await Drawing.findAndCountAll({
+    //   where: {
+    //     info: {
+    //       [Op.like]: '%exists%'
+    //     }
+    //   },
+    //   // offset: 10,
+    //   limit: 10
+    // });
+    // console.log(count); // returns 2 
+    // console.log(rows); // returns an empty array because of the offset
+
+    // const getterExample = await Drawing.findOne({
+    //   attributes: { exclude: "uri" },
+    //   where: { drawing_uid: exampleDrawingUid }
+    // });
+
+    // console.log(getterExample.info) // UPPERCASE
+    // console.log(getterExample.getDataValue('info')); // The version that exists in the database
+
+
+    // COMBINING MULTIPLE VALUES -- SETTER & GETTER 
+    // const User = sequelize.define('user', {
+    //   username: DataTypes.STRING,
+    //   password: {
+    //     type: DataTypes.STRING,
+    //     set(value) {
+    //       // Storing passwords in plaintext in the database is terrible.
+    //       // Hashing the value with an appropriate cryptographic hash function is better.
+    //       // Using the username as a salt is better.
+    //       this.setDataValue('password', hash(this.username + value));
+    //     }
+    //   }
+    // }); 
 
   }catch(error){
     console.log("error caught ==>", error )
