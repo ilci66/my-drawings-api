@@ -55,7 +55,12 @@ const Drawing = sequelize.define('mock_drawings', {
     allowNull: false, 
     primaryKey: true,
   },
-  uri: { type: DataTypes.STRING(2050), allowNull: false },
+  uri: { 
+    type: DataTypes.STRING(2050), 
+    allowNull: false,
+    // adding unique value as a very basic constraint example
+    unique: true
+  },
   info: { 
     type: DataTypes.STRING(300), 
     allowNull: false,
@@ -78,7 +83,7 @@ const Drawing = sequelize.define('mock_drawings', {
   // tableName: 'mock_drawings'
 });
 
-const Object = sequelize.define('Object', {
+const Object = sequelize.define('mock_objects', {
   object_uid: { 
     type: DataTypes.UUID, 
     defaultValue: Sequelize.UUIDV4, 
@@ -87,13 +92,13 @@ const Object = sequelize.define('Object', {
   },
   type: { type: DataTypes.STRING, allowNull: false},
 },{
-  tableName: 'mock_object'
+  tableName: 'mock_objects'
 },{
   timestamps: false
 })
 
 // I don't know how to create a realtion yet 
-const Relation = sequelize.define('Relation', {
+const Relation = sequelize.define('drawing_object_relations', {
   relation_uid: { 
     type: DataTypes.UUID, 
     defaultValue: Sequelize.UUIDV4,
@@ -117,7 +122,7 @@ const Relation = sequelize.define('Relation', {
     allowNull: false 
   }
 },{
-  tableName: 'drawing_object_relation'
+  tableName: 'drawing_object_relations'
 },{
   timestamps: false
 })
@@ -134,8 +139,14 @@ console.log("is model successful ==> ",
 
 
 
+
 const simpleSelect = async () =>  {
   try{
+
+    // make sure you use use this when creating tables, when "force: true" it drops tables and tries to create it's own, default is false  
+    // await sequelize.sync({ alter: { drop : false }}); // feels a little safer like this
+    // console.log("All models were synchronized successfully.");
+
     // GET EVERYTHING
     // const allDrawings = await Drawing.findAll();
 
@@ -259,18 +270,24 @@ const simpleSelect = async () =>  {
 
 
     // COMBINING MULTIPLE VALUES -- SETTER & GETTER 
-    // const User = sequelize.define('user', {
-    //   username: DataTypes.STRING,
-    //   password: {
-    //     type: DataTypes.STRING,
+    // ===> Most databases handle this kind of convertions automatically, this is just and example for how getters and setters can be combined
+    // const { gzipSync, gunzipSync } = require('zlib');
+
+    // const Post = sequelize.define('post', {
+    //   content: {
+    //     type: DataTypes.TEXT,
+    //     get() {
+    //       const storedValue = this.getDataValue('content');
+    //       const gzippedBuffer = Buffer.from(storedValue, 'base64');
+    //       const unzippedBuffer = gunzipSync(gzippedBuffer);
+    //       return unzippedBuffer.toString();
+    //     },
     //     set(value) {
-    //       // Storing passwords in plaintext in the database is terrible.
-    //       // Hashing the value with an appropriate cryptographic hash function is better.
-    //       // Using the username as a salt is better.
-    //       this.setDataValue('password', hash(this.username + value));
+    //       const gzippedBuffer = gzipSync(value);
+    //       this.setDataValue('content', gzippedBuffer.toString('base64'));
     //     }
     //   }
-    // }); 
+    // });
 
   }catch(error){
     console.log("error caught ==>", error )
