@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize, DataTypes, Op } = require('sequelize');
+const { Sequelize, DataTypes, Op, QueryTypes } = require('sequelize');
 const { USER, HOST, DATABASE, PASSWORD, POSTGRESQL_PORT } = process.env;
 console.log(USER, HOST, DATABASE, PASSWORD, POSTGRESQL_PORT)
 
@@ -288,6 +288,42 @@ const simpleSelect = async () =>  {
     //     }
     //   }
     // });
+
+    // RAW DATA (just the ones I wanna try out), use " " instead of ` `
+    // const records = await sequelize.query('select 1 as "foo.bar.baz"', {
+    //   next: false,
+    //   type: QueryTypes.SELECT
+    // });
+    // console.log(JSON.stringify(records[0], null, 2)); // returns when nested is false { "foo.bar.baz": 1 }
+
+    // const records = await sequelize.query('select 1 as "foo.bar.baz"', {
+    //   nest: true,
+    //   type: QueryTypes.SELECT
+    // });
+    
+    // console.log(JSON.stringify(records[0], null, 2)); // returns { "foo": { "bar": { "baz": 1 } } }
+    
+    // REPLACEMENTS, ? or :status both fine, gets replaced by the values in the array, 
+    // replacemenets occur before sending the query to the database
+
+    // await sequelize.query(
+    //   'SELECT * FROM projects WHERE status IN(:status)',
+    //   {
+    //     replacements: { status: ['active', 'inactive'] },
+    //     type: QueryTypes.SELECT
+    //   }
+    // );
+
+    // Or just use wild card ("%"), to match
+
+    // await sequelize.query(
+    //   'SELECT * FROM users WHERE name LIKE :search_name',
+    //   {
+    //     replacements: { search_name: 'ben%' },
+    //     type: QueryTypes.SELECT
+    //   }
+    // );
+
 
   }catch(error){
     console.log("error caught ==>", error )
