@@ -69,12 +69,8 @@ const Team = sequelize.define('players', {
   }
 });
 
-Team.hasMany(Player, {
-  foreignKey: 'clubId'
-});
-Player.belongsTo(Team, {
-  foreignKey: 'clubId'
-});
+Team.hasMany(Player, { foreignKey: 'clubId' });
+Player.belongsTo(Team, { foreignKey: 'clubId' });
 
 
 // ============> MANY TO MANY <==========
@@ -122,8 +118,12 @@ const Captain = sequelize.define('captain', {
   }
 }, { timestamps: false });
 
-Captain.hasOne(Ship);
-Ship.belongsTo(Captain);
+Captain.hasOne(Ship, 
+  //{foreignKey: 'bossId'}
+);
+Ship.belongsTo(Captain, 
+  //{foreignKey: 'bossId'}
+);
 
 
 
