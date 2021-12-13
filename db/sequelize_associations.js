@@ -29,7 +29,7 @@ const Foo = sequelize.define('foos', {
 const Bar = sequelize.define('bars', {
   id: { 
     type: DataTypes.UUID, 
-    defaultValue: Sequelize.UUIDV4, 
+    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
   }
 });
@@ -183,4 +183,10 @@ try {
 }
 
 
-// READ ABOUT CUSTOMIZING THE FOREIGN KEY AFTER YOUR BREAK
+// ====================> IMPORTANT NOTE <========================
+// When a Sequelize association is defined between two models, only the source model knows about it.
+// So, for example, when using Foo.hasOne(Bar) (so Foo is the source model and Bar is the target model), 
+// only Foo knows about the existence of this association. This is why in this case, as shown above, Foo 
+// instances gain the methods getBar(), setBar() and createBar(), while on the other hand Bar instances get 
+// nothing. So Foo.findOne({ include: Bar }) is possible but Bar.findOne({ include: Foo }) throws an error.
+// For this reason the associations appear in pairs (Foo.hasOne(Bar) and Bar.belongsTo(Foo)).
