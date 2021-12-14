@@ -262,3 +262,76 @@ try {
 //   limit: 3
 // });
 
+
+// ================================================================
+// Associate a product with many tags
+
+// class Tag extends Model {}
+// Tag.init({
+//   name: Sequelize.STRING
+// }, { sequelize, modelName: 'tag' });
+
+// Product.hasMany(Tag);
+// Also works for `belongsToMany`.
+
+// Now we can create a product with multiple tags in the following way:
+
+// Product.create({
+//   id: 1,
+//   title: 'Chair',
+//   As easy as adding the tags here and including down below
+//   tags: [
+//     { name: 'Alpha'},
+//     { name: 'Beta'}
+//   ]
+// }, {
+//   include: [ Tag ]
+// })
+
+// Or can be modified like this:
+// const Categories = Product.hasMany(Tag, { as: 'categories' });
+
+// Product.create({
+//   id: 1,
+//   title: 'Chair',
+//   categories: [
+//     { id: 1, name: 'Alpha' },
+//     { id: 2, name: 'Beta' }
+//   ]
+// }, {
+//   include: [{
+//     association: Categories,
+//     as: 'categories'
+//   }]
+// })
+
+// ===============================================================
+
+// One of the adhantages of defining the junction table manually
+
+// const User_Profile = sequelize.define('User_Profile', {
+//   selfGranted: DataTypes.BOOLEAN
+// }, { timestamps: false });
+// User.belongsToMany(Profile, { through: User_Profile });
+// Profile.belongsToMany(User, { through: User_Profile });
+
+// const amidala = await User.create({ username: 'p4dm3', points: 1000 });
+// const queen = await Profile.create({ name: 'Queen' });
+// await amidala.addProfile(queen, { through: { selfGranted: false } });
+// const result = await User.findOne({
+//   where: { username: 'p4dm3' },
+//   include: Profile
+// });
+// console.log(result);
+
+
+// const amidala = await User.create({ username: 'p4dm3', points: 1000 });
+// const queen = await Profile.create({ name: 'Queen' });
+
+//========> Now I can alter the value, could be used for a lot of things
+// await amidala.addProfile(queen, { through: { selfGranted: false } });
+// const result = await User.findOne({
+//   where: { username: 'p4dm3' },
+//   include: Profile
+// });
+// console.log(result);
