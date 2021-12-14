@@ -250,3 +250,15 @@ try {
 //     }
 //   }]
 // });
+
+
+// ===========================================================
+
+// Adding a where clause to the include automatically makes it required:
+// User.findAndCountAll({
+//   include: [
+//     { model: Profile, where: { active: true } }
+//   ],
+//   limit: 3
+// });
+
