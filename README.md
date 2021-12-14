@@ -6,4 +6,5 @@
 * Changed the table names in the database instead of just using { freezeTableName: true } in sequelize options
 ## Gonna delete database I'm currently working on, it was created just for examples
 * Planning on posting the images on imgur and storing the urls in my database where I will be creating relations 
-* Reading about associations, sequelize seems really cool, taking notes with pen and paper while 
+* Reading about associations, sequelize seems really cool, taking notes here on on my notebook
+* Reading advanced sections on sequelize, makes it a lot easier to use SQL databases

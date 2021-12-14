@@ -183,10 +183,70 @@ try {
 }
 
 
-// ====================> IMPORTANT NOTE <========================
+// ====================> IMPORTANT NOTES <========================
 // When a Sequelize association is defined between two models, only the source model knows about it.
 // So, for example, when using Foo.hasOne(Bar) (so Foo is the source model and Bar is the target model), 
 // only Foo knows about the existence of this association. This is why in this case, as shown above, Foo 
 // instances gain the methods getBar(), setBar() and createBar(), while on the other hand Bar instances get 
 // nothing. So Foo.findOne({ include: Bar }) is possible but Bar.findOne({ include: Foo }) throws an error.
 // For this reason the associations appear in pairs (Foo.hasOne(Bar) and Bar.belongsTo(Foo)).
+
+// =================================================================
+
+// A model can be used mutiple times like this, person for email from and to for example or:
+// Team.hasOne(Game, { as: 'HomeTeam', foreignKey: 'homeTeamId' });
+// Team.hasOne(Game, { as: 'AwayTeam', foreignKey: 'awayTeamId' });
+// Game.belongsTo(Team);
+
+// =================================================================
+
+// User.findAll({
+//   include: {
+//     model: Tool,
+//     as: 'Instruments'
+//     where: {
+//       size: {
+//         [Op.ne]: 'small'
+//       }
+//     }
+//   }
+// });
+
+// is equal to:
+
+// SELECT
+//   `user`.`id`,
+//   `user`.`name`,
+//   `Instruments`.`id` AS `Instruments.id`,
+//   `Instruments`.`name` AS `Instruments.name`,
+//   `Instruments`.`size` AS `Instruments.size`,
+//   `Instruments`.`userId` AS `Instruments.userId`
+// FROM `users` AS `user`
+// INNER JOIN `tools` AS `Instruments` ON
+//   `user`.`id` = `Instruments`.`userId` AND
+//   `Instruments`.`size` != 'small';
+
+// =================================================================
+
+// If you don't want anything from the junction table keep the attributes array empty:
+// Foo.findOne({
+//   include: {
+//     model: Bar,
+//     through: {
+//       attributes: []
+//     }
+//   }
+// });
+
+// Filter on the juntion table, for the data you wanna get
+// User.findAll({
+//   include: [{
+//     model: Project,
+//     through: {
+//       where: {
+//         // Here, `completed` is a column present at the junction table
+//         completed: true
+//       }
+//     }
+//   }]
+// });
