@@ -335,3 +335,86 @@ try {
 //   include: Profile
 // });
 // console.log(result);
+
+// ===============================================================
+
+// ====> SUPER MANY-TO-MANY
+// User.belongsToMany(Profile, { through: Grant });
+// Profile.belongsToMany(User, { through: Grant });
+// User.hasMany(Grant);
+// Grant.belongsTo(User);
+// Profile.hasMany(Grant);
+// Grant.belongsTo(Profile);
+
+// This way, we can do all kinds of eager loading:
+
+// User.findAll({ include: Profile });
+// Profile.findAll({ include: User });
+// User.findAll({ include: Grant });
+// Profile.findAll({ include: Grant });
+// Grant.findAll({ include: User });
+// Grant.findAll({ include: Profile });
+
+// Even a ridiculous deep nested one like this one here:
+
+// User.findAll({
+//   include: [
+//     {
+//       model: Grant,
+//       include: [User, Profile]
+//     },
+//     {
+//       model: Profile,
+//       include: {
+//         model: User,
+//         include: {
+//           model: Grant,
+//           include: [User, Profile]
+//         }
+//       }
+//     }
+//   ]
+// });
+
+// =====> Aliasing in super many-to-many
+
+// "as" changes the target's alias, aliases are not foreign keys don't forget
+// In the database they still get saved as "productId" and "categoryId"
+
+// Product.belongsToMany(Category, { as: 'groups', through: 'product_categories' });
+// Category.belongsToMany(Product, { as: 'items', through: 'product_categories' });
+
+// await Product.findAll({ include: Category }); // This doesn't work
+
+// await Product.findAll({ // This works, passing the alias
+//   include: {
+//     model: Category,
+//     as: 'groups'
+//   }
+// });
+
+// await Product.findAll({ include: 'groups' }); // This also works
+
+
+// The "foreignKey" defines the key for the source model in the through relation, 
+// and "otherKey" defines it for the target model
+
+// with the foreign keys here:
+// Product.belongsToMany(Category, {
+//   through: 'product_categories',
+//   foreignKey: 'objectId', // replaces `productId`, for the source model
+//   otherKey: 'typeId' // replaces `categoryId`, for the target model
+// });
+// Category.belongsToMany(Product, {
+//   through: 'product_categories',
+//   foreignKey: 'typeId', // replaces `categoryId`, for the source model
+//   otherKey: 'objectId' // replaces `productId`, for the target model
+// });
+
+
+// Self referencing with aliases
+// Person.belongsToMany(Person, { as: 'Children', through: 'PersonChildren' })
+
+
+// add joinTableAttributes if you wanna use mixins to do a query and get some attribute from a junction table
+// someUser.getProfiles({ joinTableAttributes: ['selfGranted'] });
