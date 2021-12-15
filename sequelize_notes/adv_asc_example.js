@@ -107,6 +107,9 @@ GameTeam.hasMany(PlayerGameTeam);
 
   //   // Now we can make queries!
     const game = await Game.findOne({
+      // I added "raw:true" and "nested:true" here, wasn't in the given example
+      // raw: true,
+      // nest: true,
       where: {
         name: "Winter Showdown"
       },
@@ -122,13 +125,30 @@ GameTeam.hasMany(PlayerGameTeam);
       }
     });
 
-    console.log(`Found game: "${game.name}"`);
-    console.log("game ==> ",game)
-    for (let i = 0; i < game.game_teams.length; i++) {
-      const team = game.game_teams[i].Team;
-      const players = game.game_teams[i].Players;
-      console.log(`- Team "${team.name}" played game "${game.name}" with the following players:`);
-      console.log(players.map(p => `--- ${p.username}`).join('\n'));
+    console.log(`Found game: "${game.name}"`, "game keys ==>", Object.keys(game));
+
+    // these are for "raw: false":
+    console.log("game.dataValues.game_teams[0].team.dataValues ==>", game.dataValues.game_teams[0].team.dataValues)
+    console.log("Object.keys(game.dataValues.game_teams.dataValues) ==>", Array.isArray(game.dataValues.game_teams.dataValues))
+
+    // these will be for raw true
+    // console.log("game.game_teams ==>", JSON.stringify(game))
+
+    // this is for raw:false:
+    if(Array.isArray(game.dataValues.game_teams) === true){
+        console.log("team array length ==> ",game.dataValues.game_teams.length)
+        // console.log(game.dataValues.game_teams.length)
+      // gonna hve a little coffee break 
+
+
+      // for (let i = 0; i < game.game_teams.length; i++) {
+      //   const team = game.game_teams[i].team;
+      //   const players = game.game_teams[i].Players;
+      //   console.log(`- Team "${team.name}" played game "${game.name}" with the following players:`);
+      //   console.log(players.map(p => `--- ${p.username}`).join('\n'));
+      // }
+    }else {
+      console.log("it's an object")
     }
 } catch (error) {
    console.log("there is an error ===>", error) 
