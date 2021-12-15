@@ -134,13 +134,14 @@ GameTeam.hasMany(PlayerGameTeam);
     // these will be for raw true
     // console.log("game.game_teams ==>", JSON.stringify(game))
 
-    // this is for raw:false:
+    // this is for raw:false, mostly the code I wrote to see how it works
     if(Array.isArray(game.dataValues.game_teams) === true){
-        console.log("team array length ==> ",game.dataValues.game_teams.length)
-        // console.log(game.dataValues.game_teams.length)
-      // gonna hve a little coffee break 
-
-
+      console.log("team array length ==> ",game.dataValues.game_teams.length)
+      // console.log(game.dataValues.game_teams)
+      game.dataValues.game_teams.map(t => {
+        console.log("t.dataValues.players ==>", t.dataValues.players.map(p => p.dataValues.username))
+        console.log("t.dataValues.team.dataValues.name ==>", t.dataValues.team.dataValues.name)
+      })
       // for (let i = 0; i < game.game_teams.length; i++) {
       //   const team = game.game_teams[i].team;
       //   const players = game.game_teams[i].Players;
@@ -150,6 +151,10 @@ GameTeam.hasMany(PlayerGameTeam);
     }else {
       console.log("it's an object")
     }
+
+    // CREATE A LOOP FOR raw: true AS WELL AND MAYBE LOOK FOR A BETTER WAY TO QUERY, OR LEAVE IT FOR THE ACTUAL DATABASE
+    // YOUR CALL
+
 } catch (error) {
    console.log("there is an error ===>", error) 
 }
