@@ -4,7 +4,7 @@
   "description": "* I will be deploying this api to heroku probably, to use in the future\r * Also planning on updating it regularly with my new drawings\r * Don't wanna use graphql in this one, couldn't find a solution for the error I ran into at on my last project",
   "main": "index.js",
   "scripts": {
-    "devstart": "nodemon index.js",
+    "devstart": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,9 +15,17 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "nodemon": "^2.0.15",
+    "helmet": "^4.6.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.12.0-beta.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.15"
   }
 }
