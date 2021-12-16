@@ -16,9 +16,13 @@ app.use(helmet());
 
 // app.use(router)
 
-port = process.env.BACKEND_PORT || 3003;
+const { BACKEND_PORT, NODE_ENV } = process.env;
 
-const isProduction = process.env.NODE_ENV === 'production';
+console.log(BACKEND_PORT, NODE_ENV)
+
+port = BACKEND_PORT || 3003;
+
+const isProduction = NODE_ENV === 'production';
 
 app.use((err, req, res, next) =>
   res.status(500).json({
