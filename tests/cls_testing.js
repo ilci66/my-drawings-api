@@ -54,3 +54,11 @@ function requestHandler() {
 const arrowFunc = async () => {
   console.log("do stuff here")
 }
+
+class Rect {
+  constructor(h, w) {
+    this.h = h;
+    this.w = w;
+  }
+}
+const rect1 = new Rect(2,2)
