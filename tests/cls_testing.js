@@ -49,3 +49,8 @@ function requestHandler() {
     console.log(writer.get('value')); // prints 0
   }, 1000);
 }
+
+
+const arrowFunc = async () => {
+  console.log("do stuff here")
+}
