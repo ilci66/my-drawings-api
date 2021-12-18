@@ -4,7 +4,8 @@
   "description": "drawings api",
   "main": "src/server/index.js",
   "scripts": {
-    "devstart": "nodemon server",
+    "start": "nodemon lib/server",
+    "devstart": "nodemon src/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx babel src -d lib"
   },
