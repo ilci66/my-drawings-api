@@ -62,3 +62,7 @@ class Rect {
   }
 }
 const rect1 = new Rect(2,2)
+
+let arr = [1,2,3]
+
+let arr2 = [...arr, 4]
