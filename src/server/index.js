@@ -20,7 +20,7 @@ const { BACKEND_PORT, NODE_ENV } = process.env;
 
 console.log(BACKEND_PORT, NODE_ENV)
 
-port = BACKEND_PORT || 3003;
+let port = BACKEND_PORT || 3003;
 
 const isProduction = NODE_ENV === 'production';
 

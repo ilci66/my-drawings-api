@@ -2,11 +2,11 @@
   "name": "my-drawings-api",
   "version": "1.0.0",
   "description": "drawings api",
-  "main": "index.js",
+  "main": "src/server/index.js",
   "scripts": {
     "devstart": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "comptest": "npx babel tests --out-dir compiled --presets=@babel/env"
+    "build": "npx babel src -d lib"
   },
   "keywords": [],
   "author": "",
