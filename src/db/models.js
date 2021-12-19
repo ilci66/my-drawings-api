@@ -18,7 +18,7 @@ const Drawing = sequelize.define('drawing', {
     allowNull: false 
   },
   title: { 
-    type: DataTypes.STRING,     
+    type: DataTypes.STRING(1000),     
     unique: true,
     allowNull: false 
   },
@@ -39,15 +39,15 @@ const Object = sequelize.define('object', {
 Object.belongsToMany(Drawing, { through: Drawing_Object });
 Drawing.belongsToMany(Object, { through: Drawing_Object });
 
-// created here instead of in 
-(async() => {
-  try {
-    await dbConnectionTest();
-    await sequelize.sync();
-  } catch (error) {
-    console.log("something happened yo! ==>",error)
-  }
-})();
+// created the models here, wanna get used to using practice
+// (async() => {
+//   try {
+//     await dbConnectionTest();
+//     await sequelize.sync();
+//   } catch (error) {
+//     console.log("something happened yo! ==>",error)
+//   }
+// })();
 
 
 module.exports = { Drawing, Object, Drawing_Object };

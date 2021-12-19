@@ -3,8 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
 // I don't have any routes yet though
-// const router = require('./routes');
-
+const routes = require('./routes/index.js')
 const app = express();
 
 
@@ -14,7 +13,7 @@ app.use(cors());
 app.use(helmet());
 
 
-// app.use(router)
+app.use('/', routes)
 
 const { BACKEND_PORT, NODE_ENV } = process.env;
 
