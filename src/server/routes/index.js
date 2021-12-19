@@ -9,11 +9,11 @@ const { Drawing, Object, Drawing_Object } = require('../../db/models.js');
 
 dbConnectionTest();
 
-router.get('/drawings', (req, res, next) =>
+router.get('/drawings', async (req, res, next) => {
 
-
-  res.status(200).json({message: 'You will get the drawing info here'}),
-);
+  let allDrawings = await Drawing.findAll({})
+  res.status(200).json(allDrawings)
+});
 
 
 
