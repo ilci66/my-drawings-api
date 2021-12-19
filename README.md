@@ -4,3 +4,4 @@
 * I have read a lot about "pg" directly and used it in my last project so I will use "sequalize" in this one to learn about it
 * As I'm actually planning on using this in the future as well I wanna make it production ready, so learning about transctions now as it's not included by default
 * Reading babel docs and experimenting 
+* Decided to add the functionality to create the realtions between objects and drawings in the frontend by sending the matches with a post request and hadling it with sequelize in the backend
