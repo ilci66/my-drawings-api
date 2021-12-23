@@ -21,12 +21,12 @@ router.get('/drawings', async (req, res, next) => {
 });
 
 router.get('drawing/:id', async (req, res, next) => {
-  console.log(req.query.params);
+  // console.log(req.query.params);
   res.send("get the drawing")
 });
 
 router.put('drawing/:id', async (req, res, next) => {
-  console.log(req.query.params);
+  // console.log(req.query.params);
   res.send("update the object types in the drawings")
 })
 
