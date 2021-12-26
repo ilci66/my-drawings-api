@@ -13,11 +13,13 @@ dbConnectionTest();
 router.get('/', async (req, res, next) => {
   res.send('It works')
 })
-
+router.get('/objects', async (req, res, next) => {
+  let allObjects = await Object.findAll({});
+  res.status(200).json(allObjects);
+})
 router.get('/drawings', async (req, res, next) => {
-
   let allDrawings = await Drawing.findAll({})
-  res.status(200).json(allDrawings)
+  res.status(200).json(allDrawings);
 });
 
 router.get('drawing/:id', async (req, res, next) => {
@@ -30,10 +32,10 @@ router.put('drawing/:id', async (req, res, next) => {
   res.send("update the object types in the drawings")
 })
 
-// router.all('*', (req, res, next) =>
-//   res.status(404).json({
-//     message: 'Didn\'t create the route yet',
-//   }),
-// );
+router.all('*', (req, res, next) =>
+  res.status(404).json({
+    message: 'Didn\'t create the route yet',
+  }),
+);
 
 module.exports = router;
