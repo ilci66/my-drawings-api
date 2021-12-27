@@ -4,9 +4,6 @@ const router = express.Router();
 const {sequelize, dbConnectionTest } = require('../../db/connection.js');
 const { Drawing, Object, Drawing_Object } = require('../../db/models.js');
 
-
-
-
 dbConnectionTest();
 
 
