@@ -28,6 +28,7 @@ router.put('/drawing/:id', async (req, res, next) => {
   console.log("put ===>",(req.params));
   console.log("put ===>",req.body)
   res.json({message:"update the object types in the drawings"})
+  // drawinginstance.setobjects() will be used here
 })
 
 router.all('*', (req, res, next) =>
