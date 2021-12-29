@@ -25,8 +25,9 @@ router.get('/drawing/:id', async (req, res, next) => {
 });
 
 router.put('/drawing/:id', async (req, res, next) => {
-  console.log(req.query.params);
-  res.send("update the object types in the drawings")
+  console.log("put ===>",(req.params));
+  console.log("put ===>",req.body)
+  res.json({message:"update the object types in the drawings"})
 })
 
 router.all('*', (req, res, next) =>

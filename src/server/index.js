@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 // I don't have any routes yet though
 const routes = require('./routes/index.js')
 const app = express();
@@ -12,6 +13,8 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 
 app.use('/', routes)
 
