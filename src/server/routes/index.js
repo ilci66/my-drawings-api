@@ -27,8 +27,13 @@ router.get('/drawing/:id', async (req, res, next) => {
 router.put('/drawing/:id', async (req, res, next) => {
   console.log("put ===>",(req.params));
   console.log("put ===>",req.body)
-  res.json({message:"update the object types in the drawings"})
-  // drawinginstance.setobjects() will be used here
+  // res.json({message:"update the object types in the drawings"})
+  // drawinginstance.setobjects() will be used herebut not really sure how exactly
+  try{  
+    let drawing = await Drawing.findOne({where: {id: req.params.id}})
+    console.log(drawing)
+    drawing.setObject({id: req.body[0].id})
+  }catch(e) { console.log("error occured while setting type",e) } 
 })
 
 router.all('*', (req, res, next) =>

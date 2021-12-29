@@ -13,8 +13,8 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.json({}))
+// app.use(bodyParser.urlencoded({}))
 
 app.use('/', routes)
 
