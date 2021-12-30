@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const { Op } = require("sequelize");
 const {sequelize, dbConnectionTest } = require('../../db/connection.js');
 const { Drawing, Object, Drawing_Object } = require('../../db/models.js');
 
@@ -31,9 +31,20 @@ router.put('/drawing/:id', async (req, res, next) => {
   // drawinginstance.setobjects() will be used herebut not really sure how exactly
   try{  
     let drawing = await Drawing.findOne({where: {id: req.params.id}})
-    console.log(drawing)
-    drawing.setObject({id: req.body[0].id})
-  }catch(e) { console.log("error occured while setting type",e) } 
+
+    if(req.body.length === 2){ 
+      let types = await  Object.findAll({where: { id: { [Op.or]:  [req.body[0].id, req.body[1].id] }}}) 
+      await drawing.setObjects(types)
+    }
+    else if(req.body.length === 1) { 
+      let types = await  Object.findAll({where: { id: req.body[0].id }}) 
+      await drawing.setObjects(types)
+    }
+    return res.status(204).json({message: "updated successfuly"})
+  }catch(e) { 
+    console.log("error occured while setting type ==> ", e)
+    return res.status(400).json({error: e})
+  } 
 })
 
 router.all('*', (req, res, next) =>
