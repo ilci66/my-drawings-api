@@ -14,8 +14,8 @@ router.get('/objects', async (req, res, next) => {
   let allObjects = await Object.findAll({});
   res.status(200).json(allObjects);
 })
-router.get('/drawings', async (req, res, next) => {
-  let allDrawings = await Drawing.findAll({})
+router.get('/drawings', async (req, res, next) => { 
+  let allDrawings = await Drawing.findAll({include: Object})
   res.status(200).json(allDrawings);
 });
 
