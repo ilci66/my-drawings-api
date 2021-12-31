@@ -40,7 +40,7 @@ router.put('/drawing/:id', async (req, res, next) => {
       let types = await  Object.findAll({where: { id: req.body[0].id }}) 
       await drawing.setObjects(types)
     }
-    return res.status(204).json({message: "updated successfuly"})
+    return res.status(204).json({"message": "updated successfuly"})
   }catch(e) { 
     console.log("error occured while setting type ==> ", e)
     return res.status(400).json({error: e})
