@@ -35,15 +35,17 @@ router.post('/drawing/:id', async (req, res, next) => {
     if(req.body.length === 2){ 
       let types = await  Object.findAll({where: { id: { [Op.or]:  [req.body[0].id, req.body[1].id] }}}) 
       await drawing.setObjects(types)
-      console.log("length is 2 and sending message")
-      return res.status(204).send(drawing)
+      // console.log("length is 2 and sending drawing ==>", drawing)
+      await drawing.save()
+      return res.status(200).json(drawing)
     }
     else{ 
     // else if(req.body.length === 1) { 
       let types = await  Object.findAll({where: { id: req.body[0].id }}) 
       await drawing.setObjects(types)
-      console.log("length is not 2 and sending message")
-      return res.status(204).json(drawing)
+      // console.log("length is not 2 and sending drawing ==>",drawing)
+      await drawing.save()
+      return res.status(200).json(drawing)
     }
   }catch(e) { 
     console.log("error occured while setting type ==> ", e)
